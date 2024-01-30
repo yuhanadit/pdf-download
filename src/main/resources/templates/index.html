@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<button onclick="downloadPdfApi()">Download PDF</button>
+
+<script>
+    function downloadPdfApi() {
+        const settings = {
+            "url": "/api/receiptPdf",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            downloadFile(response.downloadUrl)
+        });
+    }
+
+    function downloadFile(fileUrl) {
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = '_blank'; // Open in a new tab or window
+        link.download = 'receipt.pdf'; // Set the desired file name
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Trigger a click on the link
+        link.click();
+
+        // Remove the link from the DOM
+        document.body.removeChild(link);
+    }
+</script>
+
+</body>
+</html>
